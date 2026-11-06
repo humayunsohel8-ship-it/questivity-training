@@ -7,7 +7,8 @@ import { minutesLabel, formatDate } from "@/lib/utils";
 
 export const metadata = { title: "Admin · Courses" };
 
-export default async function AdminCoursesPage() {
+export default async function AdminCoursesPage({ searchParams }: { searchParams: Promise<{ new?: string }> }) {
+  const isNew = (await searchParams).new === "1";
   await requireAdmin();
   const db = createAdminClient();
   const { data: courses } = await db.from("courses").select("id, title, slug, category, level, status, is_mandatory, duration_minutes, updated_at").order("updated_at", { ascending: false });
@@ -16,7 +17,7 @@ export default async function AdminCoursesPage() {
     <div className="space-y-8">
       <PageHeader title="Courses" description="Create and manage courses, modules, lessons and quizzes." />
 
-      <details className="card p-5">
+      <details id="new" className="card p-5" open={isNew}>
         <summary className="cursor-pointer font-semibold text-brand">+ New course</summary>
         <form action={createCourse} className="mt-4 grid gap-4 sm:grid-cols-2">
           <div className="sm:col-span-2"><label className="label">Title</label><input name="title" className="input" required /></div>

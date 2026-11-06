@@ -3,6 +3,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { PageHeader } from "@/components/ui";
 import { AssignPathForm } from "@/components/assign-path-form";
 import { createUserWithPassword, resetUserPassword, updateUser } from "../actions";
+import { BulkImport } from "./bulk-import";
 import { formatDate } from "@/lib/utils";
 import type { Profile } from "@/lib/types";
 
@@ -55,6 +56,8 @@ export default async function AdminUsersPage({ searchParams }: { searchParams: P
           <div className="flex items-end md:col-span-2"><button className="btn-primary w-full">Create user</button></div>
         </form>
       </section>
+
+      <BulkImport />
 
       <form className="card flex gap-2 p-4">
         <input name="q" defaultValue={q} placeholder="Search name or email" className="input flex-1" />

@@ -1,7 +1,7 @@
-import Image from "next/image";
 import type { Metadata } from "next";
 import { GraduationCap, BookOpenText, Bot } from "lucide-react";
 import { brand } from "@/config/brand";
+import { Logo } from "@/components/logo";
 import { LoginForm } from "./login-form";
 import { signInWithMicrosoft, signOut } from "./actions";
 
@@ -19,30 +19,30 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
 
   return (
     <main className="grid min-h-screen lg:grid-cols-2">
-      <section className="relative hidden flex-col justify-between overflow-hidden bg-brand-dark p-12 text-white lg:flex">
+      <section className="relative hidden flex-col justify-between overflow-hidden bg-gradient-to-br from-brand-dark via-brand to-[#1a6f8f] p-12 text-white lg:flex">
         <div
           aria-hidden
-          className="absolute inset-0 opacity-20"
-          style={{ backgroundImage: "radial-gradient(circle at 20% 20%, rgb(var(--brand-accent)) 0, transparent 35%), radial-gradient(circle at 80% 70%, rgb(var(--brand-primary)) 0, transparent 45%)" }}
+          className="absolute inset-0 opacity-[0.07]"
+          style={{ backgroundImage: "repeating-linear-gradient(90deg, #fff 0 2px, transparent 2px 28px), repeating-linear-gradient(0deg, #fff 0 1px, transparent 1px 14px)" }}
         />
-        <Image src="/brand/logo-white.svg" alt={brand.product} width={220} height={41} priority className="relative" />
+        <div className="relative inline-flex w-fit rounded-brand bg-white px-4 py-3 shadow-lg">
+          <Logo />
+        </div>
         <div className="relative space-y-8">
-          <h1 className="font-display text-4xl font-bold leading-tight">
-            {brand.tagline}
-          </h1>
-          <ul className="space-y-5 text-white/85">
+          <h1 className="font-display text-4xl font-normal leading-tight">{brand.tagline}</h1>
+          <ul className="space-y-5 text-white/90">
             <li className="flex gap-3"><GraduationCap className="mt-0.5 h-5 w-5 shrink-0 text-brand-accent" /> Structured learning paths for new joinees and every technical track</li>
             <li className="flex gap-3"><BookOpenText className="mt-0.5 h-5 w-5 shrink-0 text-brand-accent" /> One knowledge base for processes, runbooks and policies</li>
             <li className="flex gap-3"><Bot className="mt-0.5 h-5 w-5 shrink-0 text-brand-accent" /> {brand.assistantName}: instant answers from our knowledge base, with sources</li>
           </ul>
         </div>
-        <p className="relative text-xs text-white/50">© {new Date().getFullYear()} {brand.company} · Internal use only</p>
+        <p className="relative text-xs text-white/60">© {new Date().getFullYear()} {brand.company} Incorporated · Internal use only</p>
       </section>
 
       <section className="flex items-center justify-center p-6">
         <div className="w-full max-w-sm space-y-8">
           <div className="lg:hidden">
-            <Image src="/brand/logo.svg" alt={brand.product} width={200} height={37} priority />
+            <Logo />
           </div>
           <div>
             <h2 className="page-title">Sign in</h2>

@@ -21,6 +21,8 @@ row-level security) and **Claude** (Anthropic API). Deploys to Vercel (or Netlif
 - **Quest Assistant** — optional AI: admins switch Claude answers on/off; without AI it works in search mode. Full-page chat with history + a floating widget on every page; answers only from published
   articles, cites them inline, says "not covered" instead of guessing, thumbs up/down feedback
 
+- **Live classes** — join links, extra shared links, recordings, "Add to Outlook" / .ics calendar invites, attendance recorded on Join
+
 **For managers**
 - **My team** — direct reports' progress and overdue items; assign learning paths with due dates
 
@@ -29,7 +31,11 @@ row-level security) and **Claude** (Anthropic API). Deploys to Vercel (or Netlif
 - **Knowledge gaps** — every question the assistant couldn't answer (or got a 👎) → write the missing article
 - Course builder (modules, lessons, media upload, quiz editor), learning-path builder, assign paths to departments
 - KB editor with markdown preview, draft/published/archived, owner and review dates (overdue reviews highlighted)
-- Users (role, department, manager, deactivate, invite), departments, allowed email domains, quiz pass mark
+- Users (role, department, manager, deactivate, invite), password accounts, **bulk CSV import**, departments, allowed email domains, quiz pass mark
+- **Learners** — every learner's enrolments, completion, quiz scores, certificates and live attendance; assign or remove courses with due dates (person, department, list of emails or everyone)
+- **Reports** — department compliance, CSV exports (enrolments, learners, attendance)
+- **Live classes** — schedule sessions for everyone / a department / selected people, share meeting + resource links, send **Outlook meeting invites** (Microsoft 365, optional) or email/.ics fallback
+- **Media library**, **announcements** on the learner dashboard, per-course **resources & shared links**
 
 **Security**
 - Sign-in restricted to company email domains (enforced in the database), magic link / one-time code, optional Microsoft SSO

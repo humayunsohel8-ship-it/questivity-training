@@ -6,6 +6,7 @@ import { ConfirmButton } from "@/components/confirm-button";
 import { deleteDepartment, saveDepartment, saveSettings } from "../actions";
 import { brand } from "@/config/brand";
 import { env } from "@/lib/env";
+import { graphConfigured, graphOrganizer } from "@/lib/graph";
 
 export const metadata = { title: "Admin · Settings" };
 
@@ -51,6 +52,23 @@ export default async function AdminSettingsPage() {
         </div>
         <div className="sm:col-span-2"><button className="btn-primary">Save settings</button></div>
       </form>
+
+      <section className="card space-y-3 p-6">
+        <h2 className="section-title">Microsoft 365 / Outlook (optional)</h2>
+        {graphConfigured() ? (
+          <p className="text-sm text-emerald-700">✓ Connected. Live-class invites are sent from <b>{graphOrganizer()}</b>&apos;s Outlook calendar.</p>
+        ) : (
+          <div className="space-y-2 text-sm text-brand-muted">
+            <p>Not connected — live classes still work with &quot;Add to Outlook&quot; links and .ics calendar files. To send real Outlook meeting invites (with RSVPs and automatic Teams links):</p>
+            <ol className="list-decimal space-y-1 pl-5">
+              <li>Microsoft Entra admin center → App registrations → <b>New registration</b> (name: Questivity LMS).</li>
+              <li>Certificates &amp; secrets → <b>New client secret</b>; copy the value.</li>
+              <li>API permissions → Microsoft Graph → Application → <b>Calendars.ReadWrite</b> → Grant admin consent.</li>
+              <li>In Netlify → Environment variables add <code>MS_GRAPH_TENANT_ID</code>, <code>MS_GRAPH_CLIENT_ID</code>, <code>MS_GRAPH_CLIENT_SECRET</code> (secret) and <code>MS_GRAPH_ORGANIZER</code> (e.g. training@questivity.com), then redeploy.</li>
+            </ol>
+          </div>
+        )}
+      </section>
 
       <section className="card p-6">
         <h2 className="section-title mb-4">Departments</h2>

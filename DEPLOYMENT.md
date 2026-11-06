@@ -48,6 +48,18 @@ Add a key and switch on **Admin → Settings → AI answers** to have Claude wri
 console.anthropic.com → **API keys** → create a key. Set a monthly spend limit under Billing.
 Cost is driven by questions asked; the per-user hourly limit (`ASSISTANT_HOURLY_LIMIT`) caps abuse.
 
+## 3b. (Optional) Outlook meeting invites for live classes
+
+Without this, live classes still offer "Add to Outlook", .ics downloads and a BCC email link.
+To have the LMS send real Outlook invites (RSVP + optional automatic Teams link):
+
+1. entra.microsoft.com → App registrations → New registration ("Questivity LMS").
+2. Certificates & secrets → New client secret.
+3. API permissions → Microsoft Graph → **Application** → `Calendars.ReadWrite` → Grant admin consent.
+   (Optionally restrict it to the organiser mailbox with an Exchange application access policy.)
+4. Add env vars on the host: `MS_GRAPH_TENANT_ID`, `MS_GRAPH_CLIENT_ID`, `MS_GRAPH_CLIENT_SECRET`,
+   `MS_GRAPH_ORGANIZER` (e.g. training@questivity.com) and redeploy. Admin → Settings shows "Connected".
+
 ## 4. Deploy to Vercel
 
 1. vercel.com → **Add New → Project** → import the GitHub repo (framework auto-detected: Next.js).

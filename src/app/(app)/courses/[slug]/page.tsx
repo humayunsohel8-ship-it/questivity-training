@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { Award, Clock, ShieldCheck } from "lucide-react";
+import { Award, Clock, ExternalLink, ShieldCheck } from "lucide-react";
+import type { SharedLink } from "@/lib/links";
 import { requireProfile } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 import { loadCourseOutline } from "@/lib/course-data";
@@ -106,6 +107,20 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
           )}
           <p className="text-xs text-brand-muted">Complete every lesson and pass the quiz to earn a certificate.</p>
         </div>
+        {((course as typeof course & { resources?: SharedLink[] }).resources ?? []).length > 0 && (
+          <div className="card mt-4 space-y-2 p-5">
+            <p className="label">Resources</p>
+            <ul className="space-y-1.5 text-sm">
+              {((course as typeof course & { resources?: SharedLink[] }).resources ?? []).map((r, i) => (
+                <li key={i}>
+                  <a href={r.url} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 text-brand hover:underline">
+                    <ExternalLink className="h-3.5 w-3.5" /> {r.title}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </aside>
     </div>
   );

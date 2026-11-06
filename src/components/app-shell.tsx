@@ -1,20 +1,21 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import {
-  LayoutDashboard, GraduationCap, Route, BookOpenText, Bot, Users, Settings2, Menu, X, LogOut, Award, UserCog,
+  LayoutDashboard, GraduationCap, Route, BookOpenText, Bot, Users, Settings2, Menu, X, LogOut, Award, UserCog, Video,
 } from "lucide-react";
 import { brand } from "@/config/brand";
 import { cn } from "@/lib/utils";
+import { Logo } from "@/components/logo";
 import type { UserRole } from "@/lib/types";
 
 const NAV = [
   { href: "/dashboard", label: "My learning", icon: LayoutDashboard },
   { href: "/courses", label: "Course catalog", icon: GraduationCap },
   { href: "/paths", label: "Learning paths", icon: Route },
+  { href: "/live", label: "Live classes", icon: Video },
   { href: "/kb", label: "Knowledge base", icon: BookOpenText },
   { href: "/assistant", label: brand.assistantName, icon: Bot },
   { href: "/certificates", label: "Certificates", icon: Award },
@@ -36,19 +37,20 @@ export function AppShell({
   const items = [
     ...NAV,
     ...(role === "manager" || role === "admin" ? [{ href: "/team", label: "My team", icon: Users }] : []),
-    ...(role === "admin" ? [{ href: "/admin", label: "Admin", icon: Settings2 }] : []),
+    ...(role === "admin" ? [{ href: "/admin", label: "Admin console", icon: Settings2 }] : []),
   ];
 
-  const initials = name.split(" ").map((p) => p[0]).join("").slice(0, 2).toUpperCase();
+  const initials = name.split(/[\s@.]+/).filter(Boolean).map((p) => p[0]).join("").slice(0, 2).toUpperCase();
 
+  // Styled like the www.questivity.com header: white, teal active state with a top/left accent bar.
   const sidebar = (
-    <nav className="flex h-full flex-col bg-brand-dark text-white">
-      <div className="flex h-16 items-center px-5">
+    <nav className="flex h-full flex-col border-r border-brand-line bg-white">
+      <div className="flex h-20 items-center border-b border-brand-line px-5">
         <Link href="/dashboard" onClick={() => setOpen(false)}>
-          <Image src="/brand/logo-white.svg" alt={brand.product} width={180} height={34} priority />
+          <Logo />
         </Link>
       </div>
-      <ul className="flex-1 space-y-1 px-3 py-4">
+      <ul className="flex-1 space-y-0.5 overflow-y-auto px-3 py-4">
         {items.map(({ href, label, icon: Icon }) => {
           const active = pathname === href || pathname.startsWith(href + "/");
           return (
@@ -57,26 +59,28 @@ export function AppShell({
                 href={href}
                 onClick={() => setOpen(false)}
                 className={cn(
-                  "flex items-center gap-3 rounded-brand px-3 py-2 text-sm font-medium transition",
-                  active ? "bg-white/15 text-white" : "text-white/70 hover:bg-white/10 hover:text-white",
+                  "flex items-center gap-3 border-l-[3px] px-3 py-2 text-[15px] transition",
+                  active
+                    ? "border-brand bg-brand-light/70 font-bold text-brand"
+                    : "border-transparent text-brand-ink hover:bg-brand-surface hover:text-brand",
                 )}
               >
-                <Icon className={cn("h-4 w-4", active && "text-brand-accent")} />
+                <Icon className={cn("h-4 w-4", active ? "text-brand" : "text-brand-muted")} />
                 {label}
               </Link>
             </li>
           );
         })}
       </ul>
-      <div className="border-t border-white/10 p-4">
+      <div className="border-t border-brand-line p-4">
         <div className="flex items-center gap-3">
-          <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-brand-accent text-sm font-bold">{initials}</span>
+          <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-brand text-sm font-bold text-white">{initials}</span>
           <div className="min-w-0 flex-1">
-            <p className="truncate text-sm font-semibold">{name}</p>
-            <p className="truncate text-xs text-white/60">{email}</p>
+            <p className="truncate text-sm font-bold text-brand-ink">{name}</p>
+            <p className="truncate text-xs text-brand-muted">{email}</p>
           </div>
           <form action={signOut}>
-            <button title="Sign out" className="rounded-brand p-2 text-white/70 hover:bg-white/10 hover:text-white">
+            <button title="Sign out" className="rounded-brand p-2 text-brand-muted hover:bg-brand-surface hover:text-brand">
               <LogOut className="h-4 w-4" />
             </button>
           </form>
@@ -96,11 +100,11 @@ export function AppShell({
         </div>
       )}
 
-      <header className="no-print sticky top-0 z-20 flex h-14 items-center gap-3 border-b border-brand-line bg-white/90 px-4 backdrop-blur lg:hidden">
-        <button onClick={() => setOpen(!open)} className="rounded-brand p-2 hover:bg-brand-light" aria-label="Menu">
+      <header className="no-print sticky top-0 z-20 flex h-16 items-center gap-3 border-b border-brand-line bg-white px-4 lg:hidden">
+        <button onClick={() => setOpen(!open)} className="rounded-brand p-2 hover:bg-brand-surface" aria-label="Menu">
           {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
-        <Image src="/brand/logo.svg" alt={brand.product} width={150} height={28} />
+        <Logo />
       </header>
 
       <main className="mx-auto max-w-6xl px-4 py-6 sm:px-6 lg:px-10 lg:py-10">{children}</main>

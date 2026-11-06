@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" role="img" aria-label="Questivity">
-  <rect width="48" height="48" rx="10" fill="#0B4F8C"/>
-  <g fill="none" stroke-width="4">
-    <circle cx="22" cy="22" r="11" stroke="#FFFFFF"/>
-    <path d="M29 29 L37 37" stroke="#F28C28" stroke-linecap="round"/>
-  </g>
-</svg>

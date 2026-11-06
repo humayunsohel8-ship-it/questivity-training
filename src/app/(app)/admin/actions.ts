@@ -75,6 +75,17 @@ export async function updateCourse(fd: FormData) {
   revalidatePath("/courses", "layout");
 }
 
+export async function saveCourseResources(fd: FormData) {
+  await requireAdmin();
+  const id = fstr(fd, "id");
+  const { parseLinks } = await import("@/lib/links");
+  const { error } = await createAdminClient().from("courses").update({ resources: parseLinks(fstr(fd, "resources")) }).eq("id", id);
+  if (error) return fail(error.message);
+  revalidatePath(`/admin/courses/${id}`);
+  revalidatePath("/courses", "layout");
+  redirect(`/admin/courses/${id}?saved=1`);
+}
+
 export async function deleteCourse(fd: FormData) {
   await requireAdmin();
   const db = createAdminClient();

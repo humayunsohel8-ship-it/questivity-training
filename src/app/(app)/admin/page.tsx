@@ -29,6 +29,16 @@ export default async function AdminOverviewPage() {
     <div className="space-y-10">
       <PageHeader title="Learning overview" description="Organisation-wide progress, compliance and knowledge-base health." />
 
+      <section className="flex flex-wrap gap-2">
+        <Link href="/admin/courses?new=1" className="btn-primary">+ New course</Link>
+        <Link href="/admin/courses" className="btn-ghost">+ Add video / lesson</Link>
+        <Link href="/admin/live" className="btn-ghost">+ Schedule live class</Link>
+        <Link href="/admin/users" className="btn-ghost">+ Add users</Link>
+        <Link href="/admin/kb/new" className="btn-ghost">+ KB article</Link>
+        <Link href="/admin/announcements" className="btn-ghost">+ Announcement</Link>
+        <Link href="/admin/reports" className="btn-ghost">Export reports</Link>
+      </section>
+
       <section className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         <StatCard label="Active employees" value={o.learners ?? 0} />
         <StatCard label="Completion rate" value={`${completion}%`} hint={`${o.completed ?? 0} of ${o.enrollments ?? 0} enrolments`} tone="good" />
