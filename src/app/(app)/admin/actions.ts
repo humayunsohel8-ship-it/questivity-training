@@ -372,6 +372,59 @@ export async function inviteUser(fd: FormData) {
   revalidatePath("/admin/users");
 }
 
+const MIN_PASSWORD = 10;
+
+/** Create a sign-in account with a temporary password (no email needed). */
+export async function createUserWithPassword(fd: FormData) {
+  await requireAdmin();
+  const email = fstr(fd, "email").toLowerCase();
+  const password = String(fd.get("password") || "");
+  if (!/^\S+@\S+\.\S+$/.test(email)) return fail("Enter a valid email");
+  if (password.length < MIN_PASSWORD) return fail(`Temporary password must be at least ${MIN_PASSWORD} characters`);
+
+  const db = createAdminClient();
+  const { data, error } = await db.auth.admin.createUser({
+    email,
+    password,
+    email_confirm: true,
+    user_metadata: { full_name: fstr(fd, "full_name") },
+  });
+  if (error || !data.user) {
+    const msg = error?.message ?? "Could not create the user";
+    if (/already been registered|already exists/i.test(msg)) return fail("A user with that email already exists — use Reset password instead.");
+    if (/restricted|Database error/i.test(msg)) return fail("That email domain isn't allowed (Admin → Settings → allowed domains).");
+    return fail(msg);
+  }
+
+  await db
+    .from("profiles")
+    .update({
+      full_name: fstr(fd, "full_name") || null,
+      role: pick(fstr(fd, "role"), ["learner", "manager", "admin"] as const, "learner"),
+      department_id: fstr(fd, "department_id") || null,
+      must_change_password: true,
+    })
+    .eq("id", data.user.id);
+
+  revalidatePath("/admin/users");
+  redirect("/admin/users?saved=1");
+}
+
+/** Set a new temporary password for a user; they must change it at next sign-in. */
+export async function resetUserPassword(fd: FormData) {
+  const me = await requireAdmin();
+  const id = fstr(fd, "id");
+  const password = String(fd.get("password") || "");
+  if (password.length < MIN_PASSWORD) return fail(`Temporary password must be at least ${MIN_PASSWORD} characters`);
+
+  const db = createAdminClient();
+  const { error } = await db.auth.admin.updateUserById(id, { password });
+  if (error) return fail(error.message);
+  if (id !== me.id) await db.from("profiles").update({ must_change_password: true }).eq("id", id);
+  revalidatePath("/admin/users");
+  redirect("/admin/users?saved=1");
+}
+
 export async function saveSettings(fd: FormData) {
   await requireAdmin();
   const domains = fstr(fd, "allowed_email_domains")

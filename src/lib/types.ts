@@ -13,6 +13,7 @@ export interface Profile {
   manager_id: string | null;
   joined_on: string | null;
   is_active: boolean;
+  must_change_password?: boolean;
   departments?: { name: string } | null;
 }
 

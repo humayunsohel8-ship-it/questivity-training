@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import {
-  LayoutDashboard, GraduationCap, Route, BookOpenText, Bot, Users, Settings2, Menu, X, LogOut, Award,
+  LayoutDashboard, GraduationCap, Route, BookOpenText, Bot, Users, Settings2, Menu, X, LogOut, Award, UserCog,
 } from "lucide-react";
 import { brand } from "@/config/brand";
 import { cn } from "@/lib/utils";
@@ -18,6 +18,7 @@ const NAV = [
   { href: "/kb", label: "Knowledge base", icon: BookOpenText },
   { href: "/assistant", label: brand.assistantName, icon: Bot },
   { href: "/certificates", label: "Certificates", icon: Award },
+  { href: "/account", label: "My account", icon: UserCog },
 ];
 
 export function AppShell({

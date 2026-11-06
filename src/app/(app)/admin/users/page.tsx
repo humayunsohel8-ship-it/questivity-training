@@ -2,7 +2,7 @@ import { requireAdmin } from "@/lib/auth";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { PageHeader } from "@/components/ui";
 import { AssignPathForm } from "@/components/assign-path-form";
-import { inviteUser, updateUser } from "../actions";
+import { createUserWithPassword, resetUserPassword, updateUser } from "../actions";
 import { formatDate } from "@/lib/utils";
 import type { Profile } from "@/lib/types";
 
@@ -32,19 +32,34 @@ export default async function AdminUsersPage({ searchParams }: { searchParams: P
 
   return (
     <div className="space-y-8">
-      <PageHeader title="Users" description="Employees appear here the first time they sign in, or when you invite them. Set role, department and manager to drive reporting and team views." />
+      <PageHeader title="Users" description="Create accounts with a user ID (work email) and a temporary password. Each person is asked to set their own password the first time they sign in." />
 
-      <div className="grid gap-4 lg:grid-cols-2">
-        <form className="card flex gap-2 p-4">
-          <input name="q" defaultValue={q} placeholder="Search name or email" className="input flex-1" />
-          <button className="btn-ghost">Search</button>
+      <section className="card p-5">
+        <h2 className="section-title mb-1">Add a user</h2>
+        <p className="mb-4 text-sm text-brand-muted">Share the email and temporary password with the employee privately (in person or by phone — not in a group chat).</p>
+        <form action={createUserWithPassword} className="grid gap-3 md:grid-cols-6">
+          <div className="md:col-span-2"><label className="label">Full name</label><input name="full_name" className="input" required /></div>
+          <div className="md:col-span-2"><label className="label">User ID (work email)</label><input name="email" type="email" placeholder="name@questivity.com" className="input" required /></div>
+          <div className="md:col-span-2"><label className="label">Temporary password</label><input name="password" type="text" minLength={10} autoComplete="off" placeholder="min. 10 characters" className="input font-mono" required /></div>
+          <div className="md:col-span-2">
+            <label className="label">Role</label>
+            <select name="role" className="input" defaultValue="learner"><option value="learner">Learner</option><option value="manager">Manager</option><option value="admin">Admin</option></select>
+          </div>
+          <div className="md:col-span-2">
+            <label className="label">Department</label>
+            <select name="department_id" className="input" defaultValue="">
+              <option value="">—</option>
+              {(departments ?? []).map((d) => <option key={d.id} value={d.id}>{d.name}</option>)}
+            </select>
+          </div>
+          <div className="flex items-end md:col-span-2"><button className="btn-primary w-full">Create user</button></div>
         </form>
-        <form action={inviteUser} className="card flex flex-wrap gap-2 p-4">
-          <input name="full_name" placeholder="Full name" className="input flex-1" />
-          <input name="email" type="email" placeholder="name@questivity.com" className="input flex-1" required />
-          <button className="btn-primary">Invite</button>
-        </form>
-      </div>
+      </section>
+
+      <form className="card flex gap-2 p-4">
+        <input name="q" defaultValue={q} placeholder="Search name or email" className="input flex-1" />
+        <button className="btn-ghost">Search</button>
+      </form>
 
       <div className="space-y-3">
         {((users ?? []) as Profile[]).map((u) => {
@@ -88,8 +103,14 @@ export default async function AdminUsersPage({ searchParams }: { searchParams: P
                   <button className="btn-ghost py-1.5">Save</button>
                 </div>
               </form>
-              <div className="mt-3 border-t border-brand-line pt-3">
+              <div className="mt-3 flex flex-col gap-3 border-t border-brand-line pt-3 lg:flex-row lg:items-center lg:justify-between">
                 <AssignPathForm userId={u.id} paths={paths ?? []} />
+                <form action={resetUserPassword} className="flex flex-wrap items-center gap-2">
+                  <input type="hidden" name="id" value={u.id} />
+                  <input name="password" type="text" minLength={10} autoComplete="off" placeholder="New temporary password" className="input w-56 py-1.5 font-mono" required />
+                  <button className="btn-ghost py-1.5">Reset password</button>
+                  {u.must_change_password && <span className="text-xs text-amber-700">Must set own password at next sign-in</span>}
+                </form>
               </div>
             </div>
           );

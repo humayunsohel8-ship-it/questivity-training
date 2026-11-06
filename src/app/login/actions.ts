@@ -66,6 +66,28 @@ export async function verifyCode(_prev: LoginState, formData: FormData): Promise
   redirect(next);
 }
 
+export type PasswordState = { error?: string };
+
+export async function signInWithPassword(_prev: PasswordState, formData: FormData): Promise<PasswordState> {
+  const next = safeNext(String(formData.get("next") || ""));
+  const parsed = Email.safeParse(formData.get("email"));
+  const password = String(formData.get("password") || "");
+  if (!parsed.success || !password) return { error: "Enter your work email and password." };
+
+  const domains = env.allowedDomains();
+  if (domains.length && !domains.includes(parsed.data.split("@")[1])) {
+    return { error: "Please use your company email address." };
+  }
+
+  const supabase = await createClient();
+  const { error } = await supabase.auth.signInWithPassword({ email: parsed.data, password });
+  if (error) {
+    if (error.status === 429) return { error: "Too many attempts. Please wait a few minutes and try again." };
+    return { error: "Incorrect email or password. No password yet? Use the email link instead, then set one under My account." };
+  }
+  redirect(next);
+}
+
 export async function signInWithMicrosoft(formData: FormData) {
   const next = safeNext(String(formData.get("next") || ""));
   const supabase = await createClient();
