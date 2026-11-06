@@ -20,7 +20,7 @@ After your first `npm install`, commit the generated `package-lock.json` so buil
 
 ## 2. Create the Supabase project
 
-1. supabase.com → **New project**. Pick a region close to your users and a strong DB password.
+1. supabase.com → **New project**. Region: **us-west-1 (N. California)** — closest to Questivity HQ in Santa Clara. Use a strong DB password.
 2. **SQL Editor** → run each file in `supabase/migrations/` **in filename order**, then `supabase/seed.sql`.
    (Or with the Supabase CLI: `supabase link --project-ref <ref>` → `supabase db push`, then run the seed in the SQL Editor.)
 3. **Project Settings → API**: copy the Project URL, the anon/publishable key and the service-role/secret key.
