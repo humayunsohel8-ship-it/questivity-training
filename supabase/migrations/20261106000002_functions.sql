@@ -1,5 +1,5 @@
 -- ════════════════════════════════════════════════════════════════════
--- Questivity Academy — functions & triggers (business rules live here)
+-- Questivity LMS — functions & triggers (business rules live here)
 -- ════════════════════════════════════════════════════════════════════
 
 -- ─── Role helpers (security definer so they can be used inside RLS) ──

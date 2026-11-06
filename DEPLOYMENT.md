@@ -10,7 +10,7 @@ Total time: about 45 minutes. You'll need accounts on **GitHub**, **Supabase**, 
 ```bash
 cd questivity-academy
 git init -b main            # skip if the folder is already a git repo
-git add . && git commit -m "Questivity Academy"
+git add . && git commit -m "Questivity LMS"
 # create an empty PRIVATE repo on github.com (e.g. questivity/academy), then:
 git remote add origin https://github.com/<org>/<repo>.git
 git push -u origin main

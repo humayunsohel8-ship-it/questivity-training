@@ -1,5 +1,5 @@
 -- ════════════════════════════════════════════════════════════════════
--- Questivity Academy — core schema
+-- Questivity LMS — core schema
 -- ════════════════════════════════════════════════════════════════════
 
 create extension if not exists pgcrypto;

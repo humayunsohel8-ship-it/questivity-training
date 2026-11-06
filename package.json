@@ -1,8 +1,8 @@
 {
-  "name": "questivity-academy",
+  "name": "questivity-lms",
   "version": "1.0.0",
   "private": true,
-  "description": "Questivity Academy — corporate LMS, knowledge base and AI knowledge assistant",
+  "description": "Questivity LMS — corporate learning platform, knowledge base and AI knowledge assistant",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

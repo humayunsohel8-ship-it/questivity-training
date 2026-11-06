@@ -1,5 +1,5 @@
 -- ════════════════════════════════════════════════════════════════════
--- Questivity Academy — starter content
+-- Questivity LMS — starter content
 -- Safe to run once on a fresh database (after the migrations).
 -- Articles marked DRAFT contain [placeholders] that HR/IT must complete
 -- before publishing — the assistant only ever answers from PUBLISHED articles.
@@ -126,7 +126,7 @@ $md$);
 
 select pg_temp.lesson('welcome-to-questivity', 2, 2, 'Your first 90 days', 'article', 10, $md$
 ## Days 1–30: Learn
-- Complete the **New Joinee Onboarding** path in Questivity Academy (it is already assigned to you).
+- Complete the **New Joinee Onboarding** path in Questivity LMS (it is already assigned to you).
 - Meet your manager, your team and your buddy.
 - Read the knowledge-base articles for your department.
 - Get access to every tool you need. If anything is missing, ask the Quest Assistant first, then your manager.
@@ -889,7 +889,7 @@ select pg_temp.kb('ai-tools-acceptable-use', 'it-access', 'Using AI tools at wor
 5. Do not present AI-generated content to customers as verified fact without checking it.
 
 ## Quest Assistant
-The Quest Assistant inside Questivity Academy answers only from our published knowledge base and shows its sources. If it cannot find an answer it says so and flags the gap to the knowledge-base team.
+The Quest Assistant inside Questivity LMS answers only from our published knowledge base and shows its sources. If it cannot find an answer it says so and flags the gap to the knowledge-base team.
 $md$);
 
 select pg_temp.kb('cisco-switch-baseline-hardening', 'runbooks', 'Cisco switch baseline hardening',

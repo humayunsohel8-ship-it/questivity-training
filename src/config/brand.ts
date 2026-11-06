@@ -5,7 +5,7 @@
  */
 export const brand = {
   company: "Questivity",
-  product: "Questivity Academy",
+  product: "Questivity LMS",
   tagline: "Upskill. Certify. Deliver.",
   website: "https://www.questivity.com",
   supportEmail: "info@questivity.com",

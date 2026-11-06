@@ -1,5 +1,5 @@
 -- ════════════════════════════════════════════════════════════════════
--- Questivity Academy — private storage for course media (videos, PDFs, images)
+-- Questivity LMS — private storage for course media (videos, PDFs, images)
 -- Files are served to signed-in users through short-lived signed URLs.
 -- ════════════════════════════════════════════════════════════════════
 

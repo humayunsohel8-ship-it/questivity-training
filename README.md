@@ -1,4 +1,4 @@
-# Questivity Academy
+# Questivity LMS
 
 Internal learning platform for **Questivity** employees: an LMS for new-joinee onboarding and
 upskilling, a company knowledge base, and **Quest Assistant** — an AI bot that answers questions

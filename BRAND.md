@@ -8,7 +8,7 @@ cards, progress bars, certificates, assistant) follows.
 | Colours | `src/app/globals.css` → `:root` | see table below |
 | Fonts | `src/app/layout.tsx` (Google Fonts via `next/font`) | Open Sans (body), Montserrat (headings) |
 | Logos | `public/brand/logo.svg`, `logo-white.svg`, `mark.svg`, `src/app/icon.svg` | **placeholder wordmark** |
-| Names, tagline, assistant name, contact | `src/config/brand.ts` | Questivity Academy · Quest Assistant |
+| Names, tagline, assistant name, contact | `src/config/brand.ts` | Questivity LMS · Quest Assistant |
 
 ## Colour tokens
 

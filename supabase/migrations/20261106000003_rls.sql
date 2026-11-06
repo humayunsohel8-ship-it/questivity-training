@@ -1,5 +1,5 @@
 -- ════════════════════════════════════════════════════════════════════
--- Questivity Academy — row level security
+-- Questivity LMS — row level security
 -- Every table is locked down; access is granted per role below.
 -- ════════════════════════════════════════════════════════════════════
 
