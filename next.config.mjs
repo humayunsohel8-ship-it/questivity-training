@@ -14,6 +14,8 @@ const securityHeaders = [
 const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  // Lint runs as its own step in CI (.github/workflows/ci.yml); don't let style warnings block hosting builds.
+  eslint: { ignoreDuringBuilds: true },
   images: {
     remotePatterns: supabaseHost ? [{ protocol: "https", hostname: supabaseHost }] : [],
   },
