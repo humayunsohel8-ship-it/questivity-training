@@ -380,7 +380,12 @@ export async function saveSettings(fd: FormData) {
     .filter(Boolean);
   const { error } = await createAdminClient()
     .from("org_settings")
-    .update({ allowed_email_domains: domains, quiz_pass_mark: Math.min(100, Math.max(0, fint(fd, "quiz_pass_mark", 70))), updated_at: new Date().toISOString() })
+    .update({
+      allowed_email_domains: domains,
+      quiz_pass_mark: Math.min(100, Math.max(0, fint(fd, "quiz_pass_mark", 70))),
+      ai_assistant_enabled: fd.get("ai_assistant_enabled") === "on",
+      updated_at: new Date().toISOString(),
+    })
     .eq("id", true);
   if (error) return fail(error.message);
   revalidatePath("/admin/settings");

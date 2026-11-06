@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
-import { answerQuestion, type KbChunk } from "@/lib/assistant";
+import { answerQuestion, searchOnlyAnswer, type KbChunk } from "@/lib/assistant";
 import { env } from "@/lib/env";
 
 export const runtime = "nodejs";
@@ -77,22 +77,29 @@ export async function POST(request: Request) {
     content: message,
   });
 
-  const { data: profile } = await supabase.from("profiles").select("full_name").eq("id", user.id).single();
+  // AI answers are optional: on only when an admin enabled them AND a Claude key is configured.
+  const [{ data: profile }, { data: settings }] = await Promise.all([
+    supabase.from("profiles").select("full_name").eq("id", user.id).single(),
+    supabase.from("org_settings").select("ai_assistant_enabled").eq("id", true).maybeSingle(),
+  ]);
+  const useAi = Boolean(settings?.ai_assistant_enabled) && env.hasAnthropicKey();
 
   let answer;
-  try {
-    answer = await answerQuestion({
-      question: message,
-      history,
-      chunks,
-      userName: profile?.full_name || "a colleague",
-    });
-  } catch (err) {
-    console.error("assistant error", err);
-    return NextResponse.json(
-      { error: "The assistant is temporarily unavailable. Please try again in a moment.", conversationId },
-      { status: 502 },
-    );
+  if (useAi) {
+    try {
+      answer = await answerQuestion({
+        question: message,
+        history,
+        chunks,
+        userName: profile?.full_name || "a colleague",
+      });
+    } catch (err) {
+      // If Claude is unreachable, fall back to search results rather than failing.
+      console.error("assistant error — falling back to search mode", err);
+      answer = searchOnlyAnswer(chunks);
+    }
+  } else {
+    answer = searchOnlyAnswer(chunks);
   }
 
   const { data: saved } = await supabase

@@ -39,7 +39,11 @@ After your first `npm install`, commit the generated `package-lock.json` so buil
 `https://<project-ref>.supabase.co/auth/v1/callback`, enable the **Azure** provider in Supabase with its
 client ID/secret and tenant URL, then set `NEXT_PUBLIC_ENABLE_MICROSOFT_SSO=true` in the app's environment.
 
-## 3. Get a Claude API key
+## 3. (Optional) Get a Claude API key
+
+Quest Assistant works without it in **search mode** (it lists the most relevant knowledge-base articles).
+Add a key and switch on **Admin → Settings → AI answers** to have Claude write answers with citations.
+
 
 console.anthropic.com → **API keys** → create a key. Set a monthly spend limit under Billing.
 Cost is driven by questions asked; the per-user hourly limit (`ASSISTANT_HOURLY_LIMIT`) caps abuse.
@@ -54,7 +58,7 @@ Cost is driven by questions asked; the per-user hourly limit (`ASSISTANT_HOURLY_
 | `NEXT_PUBLIC_SUPABASE_URL` | Supabase Project URL |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | anon / publishable key |
 | `SUPABASE_SERVICE_ROLE_KEY` | service-role / secret key (**never** prefix with NEXT_PUBLIC) |
-| `ANTHROPIC_API_KEY` | your Claude key |
+| `ANTHROPIC_API_KEY` | *Optional.* Your Claude key — enables AI answers, switched on/off in Admin → Settings |
 | `ANTHROPIC_MODEL` | `claude-sonnet-5-5` (or another current Claude model id) |
 | `NEXT_PUBLIC_SITE_URL` | `https://learn.questivity.com` |
 | `ALLOWED_EMAIL_DOMAINS` | `questivity.com` |

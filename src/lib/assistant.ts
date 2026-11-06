@@ -15,6 +15,52 @@ export interface KbChunk {
 
 export const NOT_FOUND_MARKER = "[[NOT_FOUND]]";
 
+/** Plain-text excerpt of a markdown section (code fences and formatting removed). */
+function excerpt(md: string, max = 260) {
+  const text = md
+    .replace(/```[\s\S]*?```/g, " ")
+    .replace(/`([^`]*)`/g, "$1")
+    .replace(/[*_>#|]/g, " ")
+    .replace(/\[([^\]]*)\]\([^)]*\)/g, "$1")
+    .replace(/\s+/g, " ")
+    .trim();
+  return text.length > max ? `${text.slice(0, max).replace(/\s+\S*$/, "")}…` : text;
+}
+
+/**
+ * Search mode (AI off, or no Claude key): list the best-matching knowledge-base
+ * sections with short excerpts. No external API is called.
+ */
+export function searchOnlyAnswer(chunks: KbChunk[]): AssistantAnswer {
+  const picked: KbChunk[] = [];
+  const seenArticles = new Set<string>();
+  for (const c of chunks) {
+    if (seenArticles.has(c.article_id)) continue;
+    seenArticles.add(c.article_id);
+    picked.push(c);
+    if (picked.length === 4) break;
+  }
+
+  if (picked.length === 0) {
+    return {
+      text: "I couldn't find anything in the knowledge base about that yet. Try different keywords, or ask your manager — this question has been flagged to the knowledge-base team.",
+      answeredFromKb: false,
+      citations: [],
+    };
+  }
+
+  const lines = picked.map((c, i) => {
+    const section = c.heading && c.heading !== c.title ? ` › ${c.heading}` : "";
+    return `**[${i + 1}] ${c.title}${section}**\n${excerpt(c.content)}`;
+  });
+
+  return {
+    text: `Here are the most relevant knowledge-base articles:\n\n${lines.join("\n\n")}\n\nOpen a source below to read the full article.`,
+    answeredFromKb: true,
+    citations: picked.map((c, i) => ({ n: i + 1, slug: c.slug, title: c.title, heading: c.heading })),
+  };
+}
+
 let client: Anthropic | null = null;
 function anthropic() {
   if (!client) client = new Anthropic({ apiKey: env.anthropicKey() });

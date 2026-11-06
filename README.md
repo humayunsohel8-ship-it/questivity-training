@@ -18,7 +18,7 @@ row-level security) and **Claude** (Anthropic API). Deploys to Vercel (or Netlif
 - **Quizzes** graded in the database (answers never reach the browser), pass mark, unlimited retakes
 - **Certificates** issued automatically on completion — printable / save as PDF
 - **Knowledge base** — categories, full-text search, tags, related articles
-- **Quest Assistant** — full-page chat with history + a floating widget on every page; answers only from published
+- **Quest Assistant** — optional AI: admins switch Claude answers on/off; without AI it works in search mode. Full-page chat with history + a floating widget on every page; answers only from published
   articles, cites them inline, says "not covered" instead of guessing, thumbs up/down feedback
 
 **For managers**

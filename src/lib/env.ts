@@ -9,6 +9,8 @@ export const env = {
   supabaseAnonKey: () => required("NEXT_PUBLIC_SUPABASE_ANON_KEY"),
   serviceRoleKey: () => required("SUPABASE_SERVICE_ROLE_KEY"),
   anthropicKey: () => required("ANTHROPIC_API_KEY"),
+  /** Claude is optional: without a key the assistant runs in search mode. */
+  hasAnthropicKey: () => Boolean(process.env.ANTHROPIC_API_KEY),
   anthropicModel: () => process.env.ANTHROPIC_MODEL || "claude-sonnet-5-5",
   siteUrl: () => (process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000").replace(/\/$/, ""),
   allowedDomains: () =>

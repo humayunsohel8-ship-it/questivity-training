@@ -4,6 +4,8 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { PageHeader } from "@/components/ui";
 import { ConfirmButton } from "@/components/confirm-button";
 import { deleteDepartment, saveDepartment, saveSettings } from "../actions";
+import { brand } from "@/config/brand";
+import { env } from "@/lib/env";
 
 export const metadata = { title: "Admin · Settings" };
 
@@ -14,6 +16,7 @@ export default async function AdminSettingsPage() {
     db.from("org_settings").select("*").eq("id", true).single(),
     db.from("departments").select("id, name").order("name"),
   ]);
+  const aiKeyConfigured = env.hasAnthropicKey();
 
   return (
     <div className="space-y-8">
@@ -28,6 +31,23 @@ export default async function AdminSettingsPage() {
         <div>
           <label className="label">Quiz pass mark (%)</label>
           <input name="quiz_pass_mark" type="number" min={0} max={100} defaultValue={settings?.quiz_pass_mark ?? 70} className="input" />
+        </div>
+        <div className="rounded-brand border border-brand-line bg-brand-surface p-4 sm:col-span-2">
+          <label className="flex items-start gap-3">
+            <input type="checkbox" name="ai_assistant_enabled" defaultChecked={settings?.ai_assistant_enabled ?? false} className="mt-1" />
+            <span>
+              <span className="block font-semibold">AI answers for {brand.assistantName} (Claude)</span>
+              <span className="block text-sm text-brand-muted">
+                <b>On:</b> Claude writes an answer from the knowledge base and cites its sources.{" "}
+                <b>Off:</b> the assistant runs in search mode — it lists the most relevant articles with excerpts. No AI service is called.
+              </span>
+              <span className={`mt-2 inline-block text-xs font-semibold ${aiKeyConfigured ? "text-emerald-700" : "text-amber-700"}`}>
+                {aiKeyConfigured
+                  ? "✓ Claude API key is configured on the server."
+                  : "No Claude API key configured — the assistant stays in search mode until ANTHROPIC_API_KEY is added in the hosting environment, even if this is switched on."}
+              </span>
+            </span>
+          </label>
         </div>
         <div className="sm:col-span-2"><button className="btn-primary">Save settings</button></div>
       </form>
