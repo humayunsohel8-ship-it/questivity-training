@@ -1,0 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * ─── QUESTIVITY BRAND TOKENS ───────────────────────────────────────────
+ * Values are RGB triplets (no commas inside rgb()) so Tailwind opacity
+ * modifiers work, e.g. bg-brand/10.
+ * Replace with the exact values from Questivity's brand guide (BRAND.md).
+ */
+:root {
+  --brand-primary: 11 79 140;        /* #0B4F8C  corporate blue  */
+  --brand-primary-dark: 7 46 87;     /* #072E57  navy (header/sidebar) */
+  --brand-primary-light: 225 236 247;/* #E1ECF7  tint */
+  --brand-accent: 242 140 40;        /* #F28C28  accent / CTAs highlight */
+  --brand-ink: 23 32 46;             /* #17202E  body text */
+  --brand-muted: 96 108 124;         /* #606C7C  secondary text */
+  --brand-surface: 246 248 251;      /* #F6F8FB  page background */
+  --brand-line: 222 228 236;         /* #DEE4EC  borders */
+  --brand-radius: 10px;
+}
+
+html,
+body {
+  @apply bg-brand-surface text-brand-ink antialiased;
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-brand px-4 py-2 text-sm font-semibold transition
+      focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/40 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .btn-primary {
+    @apply btn bg-brand text-white hover:bg-brand-dark;
+  }
+  .btn-accent {
+    @apply btn bg-brand-accent text-white hover:brightness-95;
+  }
+  .btn-ghost {
+    @apply btn border border-brand-line bg-white text-brand-ink hover:bg-brand-light/60;
+  }
+  .btn-danger {
+    @apply btn bg-red-600 text-white hover:bg-red-700;
+  }
+  .card {
+    @apply rounded-brand border border-brand-line bg-white shadow-sm;
+  }
+  .input {
+    @apply w-full rounded-brand border border-brand-line bg-white px-3 py-2 text-sm
+      placeholder:text-brand-muted/70 focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20;
+  }
+  .label {
+    @apply mb-1 block text-xs font-semibold uppercase tracking-wide text-brand-muted;
+  }
+  .badge {
+    @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium;
+  }
+  .page-title {
+    @apply font-display text-2xl font-bold tracking-tight text-brand-ink;
+  }
+  .section-title {
+    @apply font-display text-lg font-semibold text-brand-ink;
+  }
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: white;
+  }
+}
