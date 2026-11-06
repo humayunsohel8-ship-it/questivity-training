@@ -8,7 +8,7 @@ import { signInWithMicrosoft, signOut } from "./actions";
 export const metadata: Metadata = { title: "Sign in" };
 
 const ERRORS: Record<string, string> = {
-  auth: "That sign-in link is invalid or has expired. Please request a new one.",
+  auth: "That sign-in link is invalid, has expired or was already used (company email scanners sometimes open links first). Request a new email and enter the 6-digit code instead.",
   sso: "Microsoft sign-in isn't available right now.",
   inactive: "Your account has been deactivated. Contact your administrator.",
 };

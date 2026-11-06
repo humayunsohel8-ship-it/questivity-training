@@ -1,0 +1,17 @@
+<!--
+  Paste into Supabase → Authentication → Emails → Templates for:
+    • Magic Link        (subject: Your Questivity LMS sign-in code)
+    • Confirm sign up   (subject: Your Questivity LMS sign-in code)
+  For "Invite user", use the same body but change  type=email  to  type=invite  in the link.
+-->
+<div style="font-family:Arial,Helvetica,sans-serif;max-width:480px;margin:0 auto;padding:24px;color:#17202E">
+  <h2 style="color:#0B4F8C;margin:0 0 16px">Sign in to Questivity LMS</h2>
+  <p style="margin:0 0 8px">Your sign-in code:</p>
+  <p style="font-size:30px;font-weight:bold;letter-spacing:6px;margin:0 0 20px;color:#072E57">{{ .Token }}</p>
+  <p style="margin:0 0 20px">Enter this code on the sign-in page. It expires in 1 hour and can be used once.</p>
+  <p style="margin:0 0 20px">Or click:
+    <a href="{{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&type=email&next=/dashboard"
+       style="color:#F28C28;font-weight:bold">Sign in to Questivity LMS</a>
+  </p>
+  <p style="font-size:12px;color:#606C7C;margin:0">If you didn't request this, you can ignore this email.</p>
+</div>
