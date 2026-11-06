@@ -19,8 +19,8 @@ export function LoginForm({ next }: { next: string }) {
         <input type="hidden" name="email" value={emailState.email} />
         <input type="hidden" name="next" value={emailState.next ?? next} />
         <div>
-          <label className="label" htmlFor="token">Sign-in code</label>
-          <input id="token" name="token" inputMode="numeric" autoComplete="one-time-code" className="input text-center text-lg tracking-[0.4em]" placeholder="••••••" required autoFocus />
+          <label className="label" htmlFor="token">Sign-in code (only if your email has one)</label>
+          <input id="token" name="token" inputMode="numeric" autoComplete="one-time-code" className="input text-center text-lg tracking-[0.4em]" placeholder="••••••" required />
         </div>
         {error && <p className="text-sm text-red-600">{error}</p>}
         <button className="btn-primary w-full" disabled={verifying}>

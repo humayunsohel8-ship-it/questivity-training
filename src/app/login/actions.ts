@@ -40,7 +40,7 @@ export async function sendCode(_prev: LoginState, formData: FormData): Promise<L
     step: "code",
     email,
     next,
-    message: "Check your inbox: click the sign-in link, or enter the 6-digit code here.",
+    message: "Check your inbox and click the sign-in link. Open it in this same browser. If your email shows a 6-digit code instead, enter it below.",
   };
 }
 
