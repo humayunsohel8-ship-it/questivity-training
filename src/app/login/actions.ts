@@ -33,7 +33,17 @@ export async function sendCode(_prev: LoginState, formData: FormData): Promise<L
     },
   });
   if (error) {
-    console.error("signInWithOtp", error.message);
+    console.error("signInWithOtp", error.status, error.code, error.message);
+    if (error.status === 429 || error.code === "over_email_send_rate_limit") {
+      return {
+        step: "email",
+        error: "Too many sign-in emails were sent recently. Please wait a few minutes and try again, and use the most recent email you received.",
+        next,
+      };
+    }
+    if (/restricted to company email/i.test(error.message)) {
+      return { step: "email", error: "Please use your company email address.", next };
+    }
     return { step: "email", error: "We couldn't send a sign-in email. Check the address or try again shortly.", next };
   }
   return {
